@@ -6,29 +6,24 @@ object StringParser {
      */
     fun parse(reader: StringReader): String {
         // if current != " then exception
-        if (reader.current() != '"') throw IllegalStateException(
-            "reader should point quotation(\") at first"
-        )
+        if (reader.current() != '"')
+            throw IllegalStateException("reader should point quotation(\") at first")
 
 
         val s: MutableList<Char> = mutableListOf()
 
-        reader.read()
+        reader.readNext()
         while (reader.current() != '"') {
-            if (reader.current() == ':' || reader.current() == ',') throw IllegalStateException(
-                "quotation(\") might missing"
-            )
-
             // TODO: test case like (" \") that has no quotation in end
-            if (reader.current() != '\\') {
-                s.add(reader.current())
+            if (reader.current() == '\\') {
+                val secondChar = reader.readNext()
+                    ?: throw IllegalStateException("""character must come after \""")
+                s.add(escapeCharacter(secondChar))
             } else {
-                s.add(escapeCharacter(reader.read()))
+                s.add(reader.current())
             }
-            reader.read()
+            reader.readNext()
         }
-
-        if (reader.current() == ',') throw IllegalStateException("quotation(\") might missing")
 
         return s.joinToString("")
     }
