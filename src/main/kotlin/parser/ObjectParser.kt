@@ -32,6 +32,8 @@ object ObjectParser {
             if (reader.readSkipWhitespace() != ',') break
             reader.readSkipWhitespace()
         } while (true)
+
+        if (reader.current() != '}') throw IllegalStateException("expected }")
         return jsonMap
     }
 }
