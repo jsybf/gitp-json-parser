@@ -1,6 +1,7 @@
 package gitp.parser
 
 import gitp.StringReader
+import gitp.exception.InvalidJsonException
 
 object StringParser {
     // TODO: nullable return
@@ -20,7 +21,7 @@ object StringParser {
             // TODO: test case like (" \") that has no quotation in end
             if (reader.current() == '\\') {
                 val secondChar = reader.readNext()
-                    ?: throw IllegalStateException("""character must come after \""")
+                    ?: throw InvalidJsonException("""character must come after \""")
                 s.add(escapeCharacter(secondChar))
             } else {
                 s.add(reader.current()!!)
@@ -43,7 +44,7 @@ object StringParser {
             't' -> '\t'
             // TODO: form feed character \f
             // TODO: hexadecimal digits \u
-            else -> throw IllegalStateException("not expected escapeChar=($c)")
+            else -> throw InvalidJsonException("not expected escapeChar=($c)")
         }
     }
 

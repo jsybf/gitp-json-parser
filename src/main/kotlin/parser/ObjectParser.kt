@@ -2,6 +2,7 @@ package gitp.parser
 
 import gitp.StringReader
 import gitp.ValueReader
+import gitp.exception.InvalidJsonException
 
 object ObjectParser {
 
@@ -10,7 +11,7 @@ object ObjectParser {
      */
     fun parse(reader: StringReader): Map<String, Any?> {
         // starting exception
-        if (reader.current() != '{') throw IllegalStateException("expected {")
+        if (reader.current() != '{') throw InvalidJsonException("expected {")
 
         val jsonMap: MutableMap<String, Any?> = mutableMapOf()
 
@@ -22,7 +23,7 @@ object ObjectParser {
             val name: String = StringParser.parse(reader)!!
 
             reader.readSkipWhitespace()
-            if (reader.current() != ':') throw IllegalStateException("expected : ")
+            if (reader.current() != ':') throw InvalidJsonException("expected : ")
 
             reader.readSkipWhitespace()
 
@@ -33,7 +34,7 @@ object ObjectParser {
             reader.readSkipWhitespace()
         } while (true)
 
-        if (reader.current() != '}') throw IllegalStateException("expected }")
+        if (reader.current() != '}') throw InvalidJsonException("expected }")
         return jsonMap
     }
 }
