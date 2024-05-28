@@ -1,10 +1,13 @@
-package gitp
+package gitp.parser
+
+import gitp.StringReader
 
 object StringParser {
+    // TODO: nullable return
     /**
      * @param reader: current(field) of it should point starting quotation
      */
-    fun parse(reader: StringReader): String {
+    fun parse(reader: StringReader): String? {
         // if current != " then exception
         if (reader.current() != '"')
             throw IllegalStateException("reader should point quotation(\") at first")
@@ -20,13 +23,14 @@ object StringParser {
                     ?: throw IllegalStateException("""character must come after \""")
                 s.add(escapeCharacter(secondChar))
             } else {
-                s.add(reader.current())
+                s.add(reader.current()!!)
             }
             reader.readNext()
         }
 
         return s.joinToString("")
     }
+
 
     fun escapeCharacter(c: Char): Char {
         return when (c) {
