@@ -7,7 +7,9 @@ class StringReader(
     private val length: Int = s.length
 
     fun ifEnd(): Boolean = (length - 1) == idx
-    fun current(): Char? = if (idx == -1 || ifEnd()) null else s[idx]
+
+    // fun current(): Char? = if (idx == -1 || ifEnd()) null else s[idx]
+    fun current(): Char? = if (idx == -1) null else s[idx]
 
     fun readNext(): Char? = if (ifEnd()) null else s[++idx]
     fun glanceNext(): Char? = if (ifEnd()) null else s[idx + 1]

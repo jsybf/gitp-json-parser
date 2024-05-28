@@ -1,7 +1,7 @@
 package gitp.parser
 
 import gitp.StringReader
-import gitp.ValueReader
+import gitp.ValueParser
 import gitp.exception.InvalidJsonException
 
 object ObjectParser {
@@ -27,7 +27,7 @@ object ObjectParser {
 
             reader.readSkipWhitespace()
 
-            val value: Any? = ValueReader.read(reader)
+            val value: Any? = ValueParser.parse(reader)
             jsonMap[name] = value
 
             if (reader.readSkipWhitespace() != ',') break
