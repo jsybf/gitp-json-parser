@@ -1,6 +1,7 @@
 package gitp
 
 import gitp.parser.ArrayParser
+import gitp.parser.NumberParser
 import gitp.parser.ObjectParser
 import gitp.parser.StringParser
 
@@ -15,6 +16,9 @@ object ValueParser {
             '{' -> ObjectParser.parse(reader)
             '"' -> StringParser.parse(reader)
             '[' -> ArrayParser.parse(reader)
+            in listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-')
+            -> NumberParser.parse(reader)
+
             else -> throw IllegalStateException("unexpected char:${reader.current()}")
         }
     }
