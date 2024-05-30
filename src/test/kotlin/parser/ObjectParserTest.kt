@@ -24,6 +24,25 @@ class ObjectParserTest {
     }
 
     @Test
+    fun parse_just_number() {
+        val json = """
+            {
+                "name1" : 123e-3,
+                "name2" : 30.32,
+                "name3" : 456
+            }
+        """
+        val reader = StringReader(json)
+        reader.readSkipWhitespace()
+        assertThat(ObjectParser.parse(reader))
+            .containsOnly(
+                entry("name1", 0.123),
+                entry("name2", 30.32),
+                entry("name3", 456),
+            )
+    }
+
+    @Test
     fun parse_error_test() {
         val json = """
             {
